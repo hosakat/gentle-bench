@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Building, MapPin } from 'lucide-react';
+import { Building, MapPin, Sofa, ShoppingBag } from 'lucide-react';
 
 import {
 	Card,
@@ -59,13 +59,18 @@ const departmentStores = [
 export default function Home() {
 	return (
 		<div className="container mx-auto py-8 px-4">
-			<header className="mb-8 text-center">
-				<h1 className="text-3xl font-bold mb-2">Gentle Bench</h1>
-				<p className="text-muted-foreground">
-					付き添いで疲れる優しい男たちを守る、
+			<header className="mb-10 text-center">
+				<div className="flex justify-center mb-4">
+					<div className="bg-primary/10 p-3 rounded-full">
+						<Sofa className="h-10 w-10 text-primary" />
+					</div>
+				</div>
+				<h1 className="text-3xl sm:text-4xl font-bold mb-3">Gentle Bench</h1>
+				<p className="text-muted-foreground text-lg max-w-md mx-auto">
+					お買い物の付き添いで疲れる優しい男たちの、
 				</p>
-				<p className="text-muted-foreground">
-					お買い物の休憩に便利なベンチの場所がわかるアプリ
+				<p className="text-muted-foreground text-lg max-w-md mx-auto">
+					休憩に便利なベンチの場所がわかるアプリ
 				</p>
 			</header>
 
@@ -76,30 +81,38 @@ export default function Home() {
 						key={store.id}
 						className="transition-transform hover:scale-105"
 					>
-						<Card className="h-full">
+						<Card className="h-full friendly-card border-primary/10 overflow-hidden">
+							<div
+								className="h-40 w-full bg-cover bg-center"
+								style={{ backgroundImage: `url(${store.image})` }}
+							/>
 							<CardHeader className="pb-2 px-4 pt-4">
 								<CardTitle className="text-xl">{store.name}</CardTitle>
-								<CardDescription className="flex items-center gap-1">
-									<MapPin className="h-4 w-4" />
+								<CardDescription className="flex items-center gap-1 text-sm">
+									<MapPin className="h-4 w-4 text-primary" />
 									{store.address}
 								</CardDescription>
 							</CardHeader>
-							<CardContent className="px-4 pb-2">
-								<div
-									className="h-40 w-full bg-cover bg-center rounded-md"
-									style={{ backgroundImage: `url(${store.image})` }}
-								/>
-							</CardContent>
-							<CardFooter className="px-4 pb-4">
+							<CardFooter className="px-4 pb-4 pt-0">
 								<div className="flex items-center gap-2 text-sm text-muted-foreground">
-									<Building className="h-4 w-4" />
-									<span>{store.floors}フロア</span>
+									<Building className="h-4 w-4 text-primary/70" />
+									<span>{store.floors}階建て</span>
+									<span className="mx-1">•</span>
+									<Sofa className="h-4 w-4 text-primary/70" />
+									<span>ベンチあり</span>
 								</div>
 							</CardFooter>
 						</Card>
 					</Link>
 				))}
 			</div>
+			<footer className="mt-16 text-center text-sm text-muted-foreground">
+				<div className="flex justify-center items-center gap-2 mb-2">
+					<ShoppingBag className="h-4 w-4 text-primary" />
+					<span>快適なお買い物をサポートします</span>
+				</div>
+				<p>© 2025 Gentle Bench</p>
+			</footer>
 		</div>
 	);
 }

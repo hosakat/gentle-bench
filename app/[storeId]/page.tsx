@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Sofa, MapPin, Building } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
@@ -428,40 +428,52 @@ export default function StorePage({ params }: { params: { storeId: string } }) {
 	);
 
 	return (
-		<div className="container mx-auto py-4 px-3 sm:py-6 sm:px-4">
-			<div className="mb-4 sm:mb-6">
+		<div className="container mx-auto py-4 px-3 sm:py-6 sm:px-4 max-w-5xl">
+			<div className="mb-6 sm:mb-8">
 				<Link
 					href="/"
-					className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-muted-foreground hover:text-foreground mb-2 sm:mb-4"
+					className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-primary hover:text-primary/80 mb-4 friendly-button px-3 py-1 bg-primary/5 w-fit rounded-full"
 				>
 					<ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" />
 					<span>百貨店一覧に戻る</span>
 				</Link>
-				<h1 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2">
-					{store.name}
-				</h1>
-				<p className="text-sm text-muted-foreground">{store.address}</p>
+
+				<div className="flex items-start gap-3">
+					<div className="bg-primary/10 p-2 rounded-full mt-1">
+						<Building className="h-5 w-5 text-primary" />
+					</div>
+					<div>
+						<h1 className="text-xl sm:text-2xl font-bold mb-1">{store.name}</h1>
+						<div className="flex items-center gap-2 text-sm text-muted-foreground">
+							<MapPin className="h-3 w-3 text-primary/70" />
+							<span>{store.address}</span>
+						</div>
+					</div>
+				</div>
 			</div>
 
-			<Card className="mb-6">
-				<CardContent className="p-2 sm:p-4">
+			<Card className="mb-6 friendly-card border-primary/10">
+				<CardContent className="p-3 sm:p-5">
 					<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 sm:mb-4">
-						<h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-0">
-							フロアマップ
-						</h2>
+						<div className="flex items-center gap-2 mb-3 sm:mb-0">
+							<div className="bg-primary/10 p-1.5 rounded-full">
+								<Sofa className="h-4 w-4 text-primary" />
+							</div>
+							<h2 className="text-lg sm:text-xl font-bold">フロアマップ</h2>
+						</div>
 
 						{viewMode === 'dropdown' ? (
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button
 										variant="outline"
-										className="w-full text-sm sm:w-auto"
+										className="w-full text-sm sm:w-auto friendly-button"
 									>
 										{selectedFloor}階{' '}
 										<ChevronDown className="ml-1 h-3 w-3 sm:ml-2 sm:h-4 sm:w-4" />
 									</Button>
 								</DropdownMenuTrigger>
-								<DropdownMenuContent align="end" className="w-full">
+								<DropdownMenuContent align="end" className="w-full rounded-xl">
 									{store.floorMaps.map((map) => (
 										<DropdownMenuItem
 											key={map.floor}
@@ -481,7 +493,7 @@ export default function StorePage({ params }: { params: { storeId: string } }) {
 								<TabsList className="grid grid-flow-col auto-cols-fr overflow-x-auto h-8 text-xs sm:text-sm">
 									{store.floorMaps.map((map) => (
 										<TabsTrigger key={map.floor} value={map.floor}>
-											{map.floor}階
+											{map.floor}
 										</TabsTrigger>
 									))}
 								</TabsList>
@@ -497,22 +509,33 @@ export default function StorePage({ params }: { params: { storeId: string } }) {
 				</CardContent>
 			</Card>
 
-			<div className="bg-muted p-4 rounded-lg">
-				<h3 className="font-medium mb-2">ベンチの見方</h3>
-				<div className="flex items-center gap-4 text-sm">
-					<div className="flex items-center gap-1">
-						<div className="w-4 h-4 rounded-full bg-green-500"></div>
+			<div className="bg-primary/5 p-4 rounded-2xl mb-8">
+				<h3 className="font-bold mb-3 flex items-center gap-2">
+					<span className="bg-primary/10 p-1 rounded-full">
+						<Sofa className="h-4 w-4 text-primary" />
+					</span>
+					ベンチの見方
+				</h3>
+				<div className="flex flex-wrap items-center gap-4 text-sm">
+					<div className="flex items-center gap-2 bg-white/80 px-3 py-1.5 rounded-full">
+						<div className="w-4 h-4 rounded-full bench-available"></div>
 						<span>穴場</span>
 					</div>
-					<div className="flex items-center gap-1">
-						<div className="w-4 h-4 rounded-full bg-yellow-500"></div>
+					<div className="flex items-center gap-2 bg-white/80 px-3 py-1.5 rounded-full">
+						<div className="w-4 h-4 rounded-full bench-partially"></div>
 						<span>少しは空いてるかも</span>
 					</div>
-					<div className="flex items-center gap-1">
-						<div className="w-4 h-4 rounded-full bg-red-500"></div>
+					<div className="flex items-center gap-2 bg-white/80 px-3 py-1.5 rounded-full">
+						<div className="w-4 h-4 rounded-full bench-unavailable"></div>
 						<span>空いてたらラッキー</span>
 					</div>
 				</div>
+			</div>
+			<div className="text-center text-sm text-muted-foreground mt-8">
+				<p>※ マップ上のマーカーをタップすると詳細が表示されます</p>
+				<p>
+					※ フロアレイアウトの変更により、ベンチの場所が変わる場合があります
+				</p>
 			</div>
 		</div>
 	);
